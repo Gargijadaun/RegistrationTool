@@ -1,0 +1,75 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url('./BG.png') center fixed no-repeat;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+}
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    margin-top: 179px;
+}
+
+h4 {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+input,
+textarea,
+select {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#submit {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+#submit:hover {
+    background-color: #45a049;
+}
+
+/* Logo Styles */
+.logo {
+    max-width: 32%;
+    height: auto;
+    display: block;
+    margin: 0 auto 20px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .container {
+        width: 90%;
+    }
+
+    /* Adjust logo size for smaller screens */
+    .logo {
+        max-width: 70%; /* Set a percentage that looks good on smaller screens */
+    }
+}
+
+/* Styles for Phones */
+@media (max-width: 480px) {
+    .container {
+        width: 95%;
+    }
+
+    /* Further adjust logo size for phones if needed */
+    .logo {
+        max-width: 80%; /* Adjust as needed */
+    }
+}
