@@ -1,49 +1,76 @@
-const scriptURL = 'https://script.google.com/macros/s/AKfycbxvM0SQI6HoQ2wYzaVyOSi7kQ7Sbvd9eeDFys-6vDlwOHj_SFi2leWczf7fZagcfuV4/exec';
-
+const scriptURL = 'https://script.google.com/macros/s/AKfycbz6ILJmTMZozttoY5AnwaiPtFsKDAPYApt0uCWj3ATKyyluoRXYSqdLC6ExycLPiZ85/exec';
 const form = document.forms['contact-form'];
 
-form.addEventListener('submit', (e) => {
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  // Check if all form fields are filled
   if (validateForm()) {
-    // Get the selected project value from the dropdown
-    const selectedProject = form.elements['country'].value;
+    const selectedGender = form.elements['gender'].value;
+    const selectedCountry = form.elements['country'].value;
 
-    // Create a new FormData object and append the selected project
-    const formData = new FormData(form);
-    formData.append('selectedProject', selectedProject);
+    try {
+      const jsonFile = (selectedGender === 'male') ? 'males.json' : 'females.json';
+      const couponData = await fetchData(jsonFile);
 
-    // Make the fetch request
-    fetch(scriptURL, { method: 'POST', body: formData })
-      .then((response) => {
-        if (response.ok) {
-          alert('Thank you! Your form is submitted successfully.');
-          window.location.href = './welcome.html'; // Change this URL to the desired next page URL
-        } else {
-          throw new Error('Network response was not ok.');
-        }
-      })
-      .catch((error) => console.error('Error!', error.message));
+      if (couponData.coupons.length === 0) {
+        alert('No available coupons. Plsease try again later.');
+        return;
+      }
+
+      const selectedCoupon = couponData.coupons.shift();
+
+// Add the following lines to remove the selected coupon from the array
+couponData.coupons = couponData.coupons.filter((coupon) => coupon !== selectedCoupon);
+
+const formData = new FormData(form);
+
+formData.append('selectedGender', selectedGender);
+formData.append('selectedCountry', selectedCountry);
+formData.append('selectedCoupon', selectedCoupon);
+
+      const response = await fetch(scriptURL, { method: 'POST', body: formData });
+
+      if (response.ok) {
+        alert('Thank you! Your form is submitted successfully.');
+        window.location.href = './welcome.html'; // Change this URL to the desired next page URL
+      } else {
+        throw new Error(`Server returned ${response.status} ${response.statusText}`);
+      }
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      alert('An error occurred while submitting the form. Please try again.');
+    }
   } else {
     alert('Please fill in all the fields before submitting the form.');
   }
 });
 
-// Function to validate the form fields
 function validateForm() {
   let isValid = true;
   const formElements = form.elements;
 
   for (let i = 0; i < formElements.length; i++) {
-    if (
-      formElements[i].type !== 'submit' &&
-      formElements[i].value.trim() === ''
-    ) {
+    if (formElements[i].type !== 'submit' && formElements[i].value.trim() === '') {
       isValid = false;
       break;
     }
   }
 
   return isValid;
-} 
+}
+
+// Helper function to fetch JSON data
+// Helper function to fetch JSON data
+async function fetchData(url) {
+  try {
+    const response = await fetch(url);
+
+    if (!response.ok) {
+      throw new Error(`Server returned ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Error fetching data: ${error.message}`);
+  }
+}
