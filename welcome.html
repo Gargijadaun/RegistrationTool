@@ -1,48 +1,125 @@
+<!-- index.html -->
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="4;url=index.html">
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
     <title>Gift Collection</title>
     <style>
         body {
             margin: 0;
             padding: 0;
+            background: url('./images/giftbg.png') center fixed no-repeat;
+            background-size: cover;
             font-family: Arial, sans-serif;
         }
 
-        header {
-            background-color: #333;
-            color: #fff;
-            text-align: center;
-            padding: 0px;
-        }
-
         #main-container {
+            padding: 0;
+            background: url('./images/giftbg.png') center fixed no-repeat;
+            background-size: cover;
+            position: relative;
             display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 67vh;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 86vh;
         }
 
         #gift-image {
+            position: absolute;
             max-width: 73%;
+            max-height: 100%;
+        }
+        #gift-image1 {
+            top: 61%;
+    position: absolute;
+    max-width: 73%;
     max-height: 100%;
         }
+        #download {
+            left: 37%;
+    top: 50%;
+    position: absolute;
+    max-width: 26%;
+    max-height: 100%;
+        }
+        
+        #back {
+            width: 8%;
+            position: fixed;
+            top: 7%;
+            left: 12%;
+            transform: translate(-50%, -50%);
+            max-width: 100%;
+            height: auto;
+            z-index: 2;
+        }
+
+       
+
+        #selectedCouponDisplay {
+            margin-top: 32px;
+    color: black;
+    font-size: 9px;
+    z-index: 2;
+    position: absolute;
+}
+
     </style>
 </head>
-<body>
-
-    <header>
-        <img src="./Asset 30.png" alt="Logo" class="logo">
-        <h1>Logo</h1>
-    </header>
-
+<body id="main">
     <div id="main-container">
-        <img id="gift-image" src="./gift.png" alt="Collect Your Gift">
-    </div>
+        <img id="gift-image" src="./images/giftcard.png" alt="Collect Your Gift">
+      
+        <img id="gift-image1" src="./images/GIft box.png" alt="Collect Your Gift">
+        
 
-</body>
+            <div id="selectedCouponDisplay"></div>
+    </div>
+            <img id="download" src="./images/Download Button.png" alt="Collect Your Gift">   
+            <script>
+                 // Retrieve the selected coupon from localStorage
+        const selectedCoupon = localStorage.getItem('selectedCoupon');
+
+// Display the coupon value in the "selectedCouponDisplay" element
+const selectedCouponDisplay = document.getElementById('selectedCouponDisplay');
+if (selectedCoupon) {
+    selectedCouponDisplay.innerText = `${selectedCoupon}`;
+} else {
+    selectedCouponDisplay.innerText = 'No coupon code available.';
+}
+            </script>
+            <!-- Add this script after your existing script -->
+<script>
+    const downloadButton = document.getElementById('download');
+
+    downloadButton.addEventListener('click', () => {
+        // Specify the container to capture (main-container in this case)
+        const containerToCapture = document.getElementById('main-container');
+
+        // Use html2canvas to capture the container as an image
+        html2canvas(containerToCapture).then(canvas => {
+            // Convert the canvas to a data URL
+            const imageDataUrl = canvas.toDataURL();
+
+            // Create a link element to trigger the download
+            const downloadLink = document.createElement('a');
+            downloadLink.href = imageDataUrl;
+            downloadLink.download = 'screenshot.png';
+
+            // Append the link to the document and trigger the download
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+
+            // Remove the link from the document
+            document.body.removeChild(downloadLink);
+        });
+    });
+</script>
+
+        </body>
 </html>

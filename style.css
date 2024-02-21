@@ -1,75 +1,55 @@
 body {
     margin: 0;
     padding: 0;
-    background: url('./BG.png') center fixed no-repeat;
+    background: url('./images/BG.png') center fixed no-repeat;
     background-size: cover;
     font-family: Arial, sans-serif;
 }
-.container {
-    width: 80%;
-    margin: auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 10px;
-    margin-top: 179px;
-}
 
-h4 {
-    text-align: center;
+.container {
+    width: 424px;
+    margin: 67% auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    padding: 31px; /* Adjust the padding as needed */
+    border-radius: 5%;
+    position: relative;
 }
 
-input,
-textarea,
-select {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
+
+input, select {
+    margin-bottom: 13%;
+    padding: 13px;
+    border: none;
     border-radius: 5px;
+    background: url(./images/textbg.png) center center/cover;
 }
 
-#submit {
-    background-color: #4CAF50;
-    color: white;
+input[type="submit"] {
+    margin-left: 23%;
+    margin-top: 27%;
+    border: none;
+    background: url(./images/Register.png) center no-repeat;
+    background-size: cover;
+    width: 190px;
+    height: 56px;
     cursor: pointer;
+    content: ""; /* Remove default text */
 }
 
-#submit:hover {
-    background-color: #45a049;
-}
-
-/* Logo Styles */
-.logo {
-    max-width: 32%;
-    height: auto;
-    display: block;
-    margin: 0 auto 20px;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
+/* Center the container on all screens */
+@media screen and (max-width: 600px) {
     .container {
-        width: 90%;
-    }
-
-    /* Adjust logo size for smaller screens */
-    .logo {
-        max-width: 70%; /* Set a percentage that looks good on smaller screens */
-    }
-}
-
-/* Styles for Phones */
-@media (max-width: 480px) {
-    .container {
-        width: 95%;
-    }
-
-    /* Further adjust logo size for phones if needed */
-    .logo {
-        max-width: 80%; /* Adjust as needed */
+        width: 100%;
+        margin: 10% auto;
     }
 }
